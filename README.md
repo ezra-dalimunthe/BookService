@@ -1,4 +1,4 @@
-# MemberService
-MemberService as part of Learning Microservices
+# BookService
+BookService as part of Learning Microservices
 The repository is used to learn microservice architecture. 
 
