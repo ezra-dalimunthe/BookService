@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Book;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class BookSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,10 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            GenreSeeder::class,
-            BookSeeder::class,
-        ]);
-
+        $books = Book::factory()
+            ->count(30)
+            ->create();
     }
 }
