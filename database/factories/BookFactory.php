@@ -31,6 +31,7 @@ class BookFactory extends Factory
             'subject' => $genre,
             'classification' => str_pad(rand(0, pow(10, 3) - 1), 3, '0', STR_PAD_LEFT),
             'copies' => rand(1, 10),
+            'published_year' => rand(1966, 2022),
         ];
     }
     public function getRandomGenres()

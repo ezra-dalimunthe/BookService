@@ -43,3 +43,8 @@ $router->group(["prefix" => "api/v1/book"], function () use ($router) {
     $router->put("/{id}", "BookController@update");
     $router->delete("/{id}", "BookController@destroy");
 });
+
+$router->group(["prefix" => "api/v1/entity"], function () use ($router) {
+    $router->get("book/{id}", "EntityServiceController@showBook");
+    $router->get("books", "EntityServiceController@showBooks");
+});

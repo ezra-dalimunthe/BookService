@@ -49,10 +49,8 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-        $sortBy = $request->input("sort-by", "title");
-        $sortDir = $request->input("sort-dir", "asc");
-        $perPage = $request->input("per-page", 20);
-        $models = Book::orderBy($sortBy, $sortDir)->paginate($perPage);
+        $models = $this->query($request, 0);
+
         return response()->json($models);
     }
 
@@ -99,6 +97,7 @@ class BookController extends Controller
             "classification" => $request->input("classification"),
             "subject" => $request->input("subject"),
             "copies" => $request->input("copies"),
+            "published_year" => $request->input("published_year"),
         ]);
 
         return response()->json([
@@ -160,6 +159,7 @@ class BookController extends Controller
             "classification" => $request->input("classification"),
             "subject" => $request->input("subject"),
             "copies" => $request->input("copies"),
+            "published_year" => $request->input("published_year"),
         ]);
         return response()->json([
             "message" => "Book updated successfully!",
@@ -196,7 +196,7 @@ class BookController extends Controller
     public function show(Request $request, $id)
     {
         $book = Book::findOrFail($id);
-        return response()->json($book, 200);
+        return response()->json(["book" => $book], 200);
     }
 
     /**
@@ -226,5 +226,43 @@ class BookController extends Controller
             $book->delete();
         }
         return response()->json(null, 204);
+    }
+
+    private function query(Request $request, $type = 0)
+    {
+        $sortBy = $request->input("sort-by", "title");
+        $sortDir = $request->input("sort-dir", "asc");
+        $perPage = $request->input("per-page", 20);
+        $search = $request->input("search", null);
+
+        $models = null;
+
+        switch ($type) {
+            case 0:
+                $models = new Book;
+                break;
+            case 1:
+                $models = Book::onlyTrashed();
+                break;
+            case 2:
+                $models = Book::withTrashed();
+        }
+
+        $models = $models->orderBy($sortBy, $sortDir);
+
+        if ($search) {
+            $params = json_decode($search, true);
+            $field = strtolower(key($params));
+            $value = current($params);
+            switch ($field) {
+                default:
+                    $models->where($field, 'like', "%" . $value . '%');
+            }
+
+        }
+
+        $models = $models->paginate($perPage);
+
+        return $models;
     }
 }
