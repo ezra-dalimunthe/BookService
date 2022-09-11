@@ -48,3 +48,12 @@ $router->group(["prefix" => "api/v1/entity"], function () use ($router) {
     $router->get("book/{id}", "EntityServiceController@showBook");
     $router->get("books", "EntityServiceController@showBooks");
 });
+
+$router->group(["prefix" => "api/v1/inter-service"], function () use ($router) {
+    $router->put("book-inhand/{id}", "InterServiceController@bookInhand");
+
+});
+$router->group(["prefix" => "api/v1/statistic"], function () use ($router) {
+    $router->get("books-on-hand", "StatisticController@booksOnHand");
+
+});

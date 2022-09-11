@@ -21,7 +21,7 @@ class CreateBooksTable extends Migration
             $table->string("subject", 200);
             $table->string("classification", 10);
             $table->integer("copies")->default(1);
-            $table->integer("in_hand")->default(1);
+            //$table->integer("in_hand")->default(1);
             $table->integer("published_year")->default(0);
             $table->softDeletes();
             $table->timestamps();

@@ -135,10 +135,33 @@ namespace App\Models;
  *  @OA\Property(property="exception", type="string", example="ZoneController", description="exception class"),
  *  @OA\Property(property="source", type="string", example="ears_api", description="source of message")
  * )
-
-
  *
+ * @OA\Schema(
+ *   schema="BookInhand",
+ *   type="object",
+ *   description="Update Book Inhand",
+ *   required={"book_id","operation"},
+ *   @OA\Property(
+ *     property="book_id",
+ *     type="integer",
+ *     example="1",
+ *     description="book to update"
+ *   ),
+ *   @OA\Property(
+ *     property="operation",
+ *     ref="#/components/schemas/BookInhandOperation",
+ *     type="string",
+ *     example="decrement",
+ *     description="operation to take"
+ *   )
+ * )
+ * @OA\Schema(
+ *   schema="BookInhandOperation",
+ *   type="string",
+ *   enum={"decrement", "increment"}
+ * )
  * */
+
 class _baseModels
 {
 

@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        \DB::table("books")->truncate();
         $this->call([
             GenreSeeder::class,
             BookSeeder::class,

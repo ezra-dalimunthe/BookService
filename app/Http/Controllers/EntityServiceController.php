@@ -60,7 +60,9 @@ class EntityServiceController extends Controller
         $ids = explode(",", $ids);
 
         $models = Book::withTrashed()->whereIn("id", $ids)
-            ->get(["id","title", "author", "publisher","classification", "subject","published_year"]);
+            ->get(["id", "title", "author", "publisher", "classification", "subject", "published_year"]);
         return response()->json(["books" => $models], 200);
     }
+
+
 }
