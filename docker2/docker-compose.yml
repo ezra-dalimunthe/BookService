@@ -1,0 +1,43 @@
+version: "3"
+services:
+  book_service:
+    build:
+      context: ../
+      dockerfile: docker2/Dockerfile
+    image: reading-point/book_service:v1.0
+    container_name: reading-point-book-service
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: book_service
+      SERVICE_TAGS: v1
+      APP_NAME: book_service
+      APP_ENV: local
+      APP_KEY: 28ef3d143ba729acf55d43f3a0f12c65
+      APP_DEBUG: 0
+      APP_URL: http://localhost
+      APP_TIMEZONE: UTC
+
+      LOG_CHANNEL: stack
+      LOG_SLACK_WEBHOOK_URL:
+
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: book_service
+      DB_USERNAME: micro_user
+      DB_PASSWORD: unpri_2022
+
+      CACHE_DRIVER: file
+      QUEUE_CONNECTION: sync
+
+    working_dir: /var/www/html
+    command: php -S book_service:8000 -t public
+    ports:
+      - "8903:8000"
+    networks:
+      - reading-point-network
+
+networks:
+  reading-point-network:
+    driver: bridge
