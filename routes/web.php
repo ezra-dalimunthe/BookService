@@ -61,3 +61,15 @@ $router->group(["prefix" => "api/v1/statistic"], function () use ($router) {
     $router->get("books-on-hand", "StatisticController@booksOnHand");
 
 });
+
+
+
+Route::get('/dbcheck', function () {
+    // Test database connection
+    try {
+        DB::connection()->getPdo();
+        echo "database " . DB::connection()->getDatabaseName(), " is ready\n" ;
+    } catch (\Exception $e) {
+        die("Could not connect to the database. Please check your configuration. error:" . $e );
+   }
+});
