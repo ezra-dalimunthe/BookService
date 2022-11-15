@@ -57,6 +57,12 @@ class Handler extends ExceptionHandler
                 "ids" => $exception->getIds(),
             ], 404);
         }
+        if ($exception instanceof HttpException) {
+            return response()->json([
+                'errorMessage' => $exception->getMessage(),
+
+            ], $exception->getStatusCode());
+        }
         return parent::render($request, $exception);
     }
 }

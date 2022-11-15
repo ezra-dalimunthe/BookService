@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use Auth;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-
+    use AuthorizationTrait;
     /**
      * @OA\Get(
      *   tags={"Book"},
      *   path="/api/v1/books",
+     *   security={{ "apiAuth": {} }},
      *   summary="Book index",
      *    @OA\Parameter( name="page", in="query", required=false,
      *        description="expected page number", @OA\Schema(type="integer")
@@ -49,8 +51,8 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
+        $this->allowRole(["book_manager","front_desk"]);
         $models = $this->query($request, 0);
-
         return response()->json($models);
     }
 
@@ -58,6 +60,7 @@ class BookController extends Controller
      * @OA\Post(
      *   tags={"Book"},
      *   path="/api/v1/book",
+     *   security={{ "apiAuth": {} }},
      *   summary="Book store",
      *    @OA\RequestBody(
      *      required=true,
@@ -89,6 +92,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        $this->allowRole(["book_manager"]);
         $this->validate($request, Book::getDefaultValidator());
         $book = Book::create([
             "title" => $request->input("title"),
@@ -110,6 +114,7 @@ class BookController extends Controller
      * @OA\Put(
      *   tags={"Book"},
      *   path="/api/v1/book/{id}",
+     *   security={{ "apiAuth": {} }},
      *   summary="Book update",
      *    @OA\Parameter(
      *      name="id",
@@ -148,6 +153,7 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->allowRole(["book_manager"]);
         $this->validate($request, Book::getDefaultValidator());
 
         $book = Book::findOrFail($id);
@@ -171,6 +177,7 @@ class BookController extends Controller
      * @OA\Get(
      *   tags={"Book"},
      *   path="/api/v1/book/{id}",
+     *   security={{ "apiAuth": {} }},
      *   summary="Book show",
      *   @OA\Parameter(
      *      name="id",
@@ -195,6 +202,7 @@ class BookController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $this->allowRole(["book_manager"]);
         $book = Book::findOrFail($id);
         return response()->json(["book" => $book], 200);
     }
@@ -203,6 +211,7 @@ class BookController extends Controller
      * @OA\Delete(
      *   tags={"Book"},
      *   path="/api/v1/book/{id}",
+     *   security={{ "apiAuth": {} }},
      *   summary="Book destroy",
      *    @OA\Parameter(
      *      name="id",
@@ -221,6 +230,7 @@ class BookController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $this->allowRole(["book_manager"]);
         $book = Book::find($id);
         if ($book) {
             $book->delete();

@@ -35,6 +35,7 @@ class EntityServiceController extends Controller
      */
     public function showBook(Request $request, $id)
     {
+
         $model = Book::withTrashed()->findOrFail($id);
         $model->setHidden(["created_at", "deleted_at", "updated_at"]);
         return response()->json(["book" => $model], 200);
@@ -56,6 +57,7 @@ class EntityServiceController extends Controller
      */
     public function showBooks(Request $request)
     {
+
         $ids = $request->input("ids");
         $ids = explode(",", $ids);
 

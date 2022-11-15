@@ -38,7 +38,7 @@ class InterServiceController extends Controller
         ]);
 
         $book = Book::withTrashed()->findOrFail($id);
-        \Log::info(["Original", $book->in_hand]);
+
         switch ($request->input("operation")) {
             case "increment":
                 $book->in_hand += 1;
@@ -49,7 +49,7 @@ class InterServiceController extends Controller
         $isDirty = $book->isDirty();
         $saved = $book->save();
 
-        \Log::info([$book->id, "issaved" => $saved, "is dirty" => $isDirty]);
+
         if ($saved) {
             return response()->json(["operation" => "succeed"], 201);
         }
