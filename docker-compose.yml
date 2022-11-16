@@ -68,6 +68,7 @@ services:
   redis_service:
     image: redis:7.0.5-alpine
     container_name: reading-point-book-redis-service
+    restart: unless-stopped
     environment:
       - REDIS_PORT_NUMBER=6379
 
